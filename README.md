@@ -23,7 +23,7 @@ docker-compose up -d
 npm run serve
 ```
 
-### Compiles and minifies for production
+## Compiles and minifies for production
 ```
 npm run build
 ```
