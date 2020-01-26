@@ -23,7 +23,12 @@ docker-compose up -d
 npm run serve
 ```
 
-## Compiles and minifies for production
+## デプロイ
+### Compiles and minifies for production
 ```
 npm run build
+```
+### firebaseへデプロイ
+```
+firebase deploy
 ```
