@@ -16,7 +16,7 @@
     >
       <v-list-item>
         <v-list-item-icon>
-          <v-icon></v-icon>
+          <v-icon>mdi-filter-outline</v-icon>
         </v-list-item-icon>
 
         <v-list-item-content>
