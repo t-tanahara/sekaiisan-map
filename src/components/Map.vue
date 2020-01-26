@@ -30,7 +30,7 @@ export default {
     document.getElementsByTagName('head')[0].appendChild(gmap_element)
 
     axios
-    .get("/world_heritage/list/ja/xml", {
+    .get("/world_heritage_list.xml", {
       responseType: 'document',
     })
     .then(function(response) {
