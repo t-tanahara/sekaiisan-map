@@ -21,7 +21,7 @@ export default {
   },
 
   mounted: function() {
-    const gmap_api_key = ''
+    const gmap_api_key = process.env.VUE_APP_GOOGLE_MAP_API_KEY
     const gmap_element = document.createElement('script')
 
     gmap_element.type = 'text/javascript'
