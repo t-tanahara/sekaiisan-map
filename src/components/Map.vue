@@ -3,6 +3,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 const gmap_api_src = 'https://maps.googleapis.com/maps/api/js?language=ja&region=JP&callback=initMap'
 let world_heritage_data
 
@@ -55,11 +57,25 @@ export default {
         let info_window = new google.maps.InfoWindow({
           content: `
           <div>
-            <a name="site_url" href="${site_url}" target="_blank">
-              <img src="${image_url}">
-              <p>${site_name}</p>
-            </a>
-            <p>${site_description}</p>
+            <table>
+              <tbody>
+              <tr>
+                <td>
+                  <a name="site_url" href="${site_url}" alt="${site_name}" target="_blank">
+                    <img src="${image_url}">
+                  </a>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <a href="${site_url}" title="${site_name}">${site_name}</a>
+                </td>
+              </tr>
+              <tr>
+                <td><p>${site_description}</p></td>
+              </tr>
+              </tbody>
+            </table>
           </div>
           `
         })
