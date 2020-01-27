@@ -3,6 +3,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 const gmap_api_src = 'https://maps.googleapis.com/maps/api/js?language=ja&region=JP&callback=initMap'
 let world_heritage_data
 
