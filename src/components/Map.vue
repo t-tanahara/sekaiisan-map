@@ -44,6 +44,12 @@ export default {
 
   methods: {
     put_marker_on_map: function(records) {
+      const categories = {
+        Cultural: '文化遺産',
+        Natural: '自然遺産',
+        Mixed: '複合遺産',
+      }
+
       for (const record of records) {
         const lat = Number(record.getElementsByTagName('latitude').item(0).textContent)
         const lng = Number(record.getElementsByTagName('longitude').item(0).textContent)
@@ -53,28 +59,40 @@ export default {
         const site_url = record.getElementsByTagName('http_url').item(0).textContent
         const image_url = record.getElementsByTagName('image_url').item(0).textContent
         const category = record.getElementsByTagName('category').item(0).textContent
+        const criteria = record.getElementsByTagName('criteria_txt').item(0).textContent
+        const inscription = Number(record.getElementsByTagName('date_inscribed').item(0).textContent)
 
         let info_window = new google.maps.InfoWindow({
           content: `
           <div>
-            <table>
-              <tbody>
-              <tr>
-                <td>
+            <table border="1" cellpadding="1" style="border-style:solid;">
+              <tr style="border:1px black solid; padding:30px;">
+                <td colspan="2" style="padding:3px;">
                   <a name="site_url" href="${site_url}" alt="${site_name}" target="_blank">
                     <img src="${image_url}">
                   </a>
                 </td>
               </tr>
               <tr>
-                <td>
+                <td colspan="2" style="padding:3px;">
                   <a href="${site_url}" title="${site_name}">${site_name}</a>
                 </td>
               </tr>
               <tr>
-                <td><p>${site_description}</p></td>
+                <th width="30%"">登録区分</th>
+                <td style="padding:3px;">${categories[category]}</td>
               </tr>
-              </tbody>
+              <tr>
+                <th width="30%">登録基準</th>
+                <td style="padding:3px;">${criteria}</td>
+              </tr>
+              <tr>
+                <th width="30%">登録年</th>
+                <td style="padding:3px;">${inscription} 年</td>
+              </tr>
+              <tr>
+                <td colspan="2" style="padding:3px;"><p>${site_description}</p></td>
+              </tr>
             </table>
           </div>
           `
@@ -98,7 +116,7 @@ export default {
         this.info_windows.push(info_window)
         this.markers.push(marker)
       }
-    }
+    },
   },
 
   watch: {
