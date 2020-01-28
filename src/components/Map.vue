@@ -44,58 +44,23 @@ export default {
 
   methods: {
     put_marker_on_map: function(records) {
-      const categories = {
-        Cultural: '文化遺産',
-        Natural: '自然遺産',
-        Mixed: '複合遺産',
-      }
-
       for (const record of records) {
         const lat = Number(record.getElementsByTagName('latitude').item(0).textContent)
         const lng = Number(record.getElementsByTagName('longitude').item(0).textContent)
         const site_name = record.getElementsByTagName('site').item(0).textContent
-        const site_description = record.getElementsByTagName('short_description').item(0).textContent
         const site_id = record.getElementsByTagName('id_number').item(0).textContent
-        const site_url = record.getElementsByTagName('http_url').item(0).textContent
-        const image_url = record.getElementsByTagName('image_url').item(0).textContent
         const category = record.getElementsByTagName('category').item(0).textContent
-        const criteria = record.getElementsByTagName('criteria_txt').item(0).textContent
-        const inscription = Number(record.getElementsByTagName('date_inscribed').item(0).textContent)
 
         let info_window = new google.maps.InfoWindow({
-          content: `
-          <div>
-            <table border="1" cellpadding="1" style="border-style:solid;">
-              <tr style="border:1px black solid; padding:30px;">
-                <td colspan="2" style="padding:3px;">
-                  <a name="site_url" href="${site_url}" alt="${site_name}" target="_blank">
-                    <img src="${image_url}">
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <td colspan="2" style="padding:3px;">
-                  <a href="${site_url}" title="${site_name}">${site_name}</a>
-                </td>
-              </tr>
-              <tr>
-                <th width="30%"">登録区分</th>
-                <td style="padding:3px;">${categories[category]}</td>
-              </tr>
-              <tr>
-                <th width="30%">登録基準</th>
-                <td style="padding:3px;">${criteria}</td>
-              </tr>
-              <tr>
-                <th width="30%">登録年</th>
-                <td style="padding:3px;">${inscription} 年</td>
-              </tr>
-              <tr>
-                <td colspan="2" style="padding:3px;"><p>${site_description}</p></td>
-              </tr>
-            </table>
-          </div>
-          `
+          content: this.info_window_content({
+            site_url: record.getElementsByTagName('http_url').item(0).textContent,
+            site_name: site_name,
+            image_url: record.getElementsByTagName('image_url').item(0).textContent,
+            category: category,
+            criteria: record.getElementsByTagName('criteria_txt').item(0).textContent,
+            inscription: Number(record.getElementsByTagName('date_inscribed').item(0).textContent),
+            site_description: record.getElementsByTagName('short_description').item(0).textContent,
+          }),
         })
 
         let marker = new google.maps.Marker({
@@ -117,6 +82,56 @@ export default {
         this.markers.push(marker)
       }
     },
+
+    info_window_content: (params) => {
+      const categories = {
+        Cultural: '文化遺産',
+        Natural: '自然遺産',
+        Mixed: '複合遺産',
+      }
+
+      const site_name_td_element = params.site_name === '' ? '' : `
+        <td colspan="2" style="padding:3px;">
+          <a href="${params.site_url}">${params.site_name}</a>
+        </td>
+      `
+
+      const description_td_element = params.site_description == '' ? '' : `
+        <td colspan="2" style="padding:3px;">
+          <p>${params.site_description}</p>
+        </td>
+      `
+
+      const info_window = `
+        <div>
+          <table border="1" cellpadding="1" style="border-style:solid;">
+            <tr style="border:1px black solid; padding:30px;">
+              <td colspan="2" style="padding:3px;">
+                <a href="${params.site_url}" alt="${params.site_name}" target="_blank">
+                  <img src="${params.image_url}">
+                </a>
+              </td>
+            </tr>
+            <tr>${site_name_td_element}</tr>
+            <tr>
+              <th width="30%"">登録区分</th>
+              <td style="padding:3px;">${categories[params.category]}</td>
+            </tr>
+            <tr>
+              <th width="30%">登録基準</th>
+              <td style="padding:3px;">${params.criteria}</td>
+            </tr>
+            <tr>
+              <th width="30%">登録年</th>
+              <td style="padding:3px;">${params.inscription} 年</td>
+            </tr>
+            </tr>${description_td_element}</tr>
+          </table>
+        </div>
+      `
+      return info_window
+    },
+
   },
 
   watch: {
