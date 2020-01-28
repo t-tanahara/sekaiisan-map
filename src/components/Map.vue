@@ -92,7 +92,7 @@ export default {
 
       const site_name_td_element = params.site_name === '' ? '' : `
         <td colspan="2" style="padding:3px;">
-          <a href="${params.site_url}">${params.site_name}</a>
+          <a href="${params.site_url}" target="_blank">${params.site_name}</a>
         </td>
       `
 
