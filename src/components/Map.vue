@@ -5,9 +5,6 @@
 <script>
 import axios from 'axios'
 
-const gmap_api_src = 'https://maps.googleapis.com/maps/api/js?language=ja&region=JP&callback=initMap'
-let world_heritage_data
-
 export default {
   name: 'Map',
 
@@ -23,6 +20,7 @@ export default {
   },
 
   mounted: function() {
+    const gmap_api_src = 'https://maps.googleapis.com/maps/api/js?language=ja&region=JP&callback=initMap'
     const gmap_api_key = process.env.VUE_APP_GOOGLE_MAP_API_KEY
     const gmap_element = document.createElement('script')
 
@@ -36,9 +34,7 @@ export default {
       responseType: 'document',
     })
     .then(function(response) {
-      world_heritage_data = response.data.getElementsByTagName('row')
-
-      this.put_marker_on_map(world_heritage_data)
+      this.put_marker_on_map(response.data.getElementsByTagName('row'))
     }.bind(this))
   },
 
